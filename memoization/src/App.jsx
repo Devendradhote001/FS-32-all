@@ -1,28 +1,46 @@
-import React, { useCallback, useMemo, useState } from "react";
-import Home from "./components/Home";
-import About from "./components/About";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from "./apis/ProductApis";
 
 const App = () => {
-  console.log("App rendering...");
-  const [count, setCount] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filterdata, setFilterdata] = useState([]);
 
-  const calc = useMemo(() => {
-    console.log("return wala fn rendering...");
-    return 500 + 900;
-  }, []);
+  const { data, isPending, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+    staleTime: Infinity,
+  });
 
-  const greet = useCallback(() => {
-    console.log("hello, good evening");
-  }, []);
+  const handleFilter = () => {
+    if (search.trim() === "") return;
+    let res = products.filter((elem) =>
+      elem.title.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilterdata(res);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      handleFilter();
+    }, 1000);
+  }, [search]);
 
   return (
     <div>
-      <h1>
-        This ia app - {count} - {calc}
-      </h1>
-      <button onClick={() => setCount(count + 1)}>Add</button>
-      <Home greet={greet} />
-      <About />
+      <h1>App</h1>
+      <div>
+        <input
+          type="text"
+          placeholder="Search products..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {data?.map((elem) => {
+          return <p key={elem.id}>{elem.title}</p>;
+        })}
+      </div>
     </div>
   );
 };
