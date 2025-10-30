@@ -14,6 +14,7 @@ const Register = ({ setToggle }) => {
 
   const onSubmit = (data) => {
     dispatch(addUser(data));
+    localStorage.setItem("user", JSON.stringify(data));
     alert("user added");
   };
 

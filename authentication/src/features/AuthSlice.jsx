@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
   },
   reducers: {
     addUser: (state, action) => {
@@ -11,6 +11,7 @@ const authSlice = createSlice({
     },
     removeUser: (state) => {
       state.user = null;
+      localStorage.removeItem("user");
     },
   },
 });

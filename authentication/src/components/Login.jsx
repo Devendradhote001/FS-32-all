@@ -1,7 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const Login = ({ setToggle }) => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -9,7 +12,16 @@ const Login = ({ setToggle }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Form data:", data);
+    let { fullname, username, password } = JSON.parse(
+      localStorage.getItem("user")
+    );
+
+    if (data.username === username && data.password === password) {
+      navigate("/home");
+      alert("user logged in");
+    } else {
+      alert("invalid credentials");
+    }
   };
 
   return (

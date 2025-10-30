@@ -5,6 +5,7 @@ import HomeLayout from "../layouts/HomeLayout";
 import HomePage from "../pages/HomePage";
 import UsersPage from "../pages/UsersPage";
 import ProductPage from "../pages/ProductPage";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -14,19 +15,25 @@ const AppRouter = () => {
     },
     {
       path: "/home",
-      element: <HomeLayout />,
+      element: <ProtectedRoute />,
       children: [
         {
           path: "",
-          element: <HomePage />,
-        },
-        {
-          path: "users",
-          element: <UsersPage />,
-        },
-        {
-          path: "products",
-          element: <ProductPage />,
+          element: <HomeLayout />,
+          children: [
+            {
+              path: "",
+              element: <HomePage />,
+            },
+            {
+              path: "users",
+              element: <UsersPage />,
+            },
+            {
+              path: "products",
+              element: <ProductPage />,
+            },
+          ],
         },
       ],
     },
