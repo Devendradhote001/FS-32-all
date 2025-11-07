@@ -3,7 +3,7 @@ import { axiosInstance } from "../config/axiosInstance";
 export const fetchUsersData = async () => {
   try {
     console.log("api call hui");
-    let res = await axiosInstance.get("/users");
+    let res = await axiosInstance.get("/userss");
     if (res) {
       return res.data;
     }

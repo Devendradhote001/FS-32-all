@@ -5,7 +5,7 @@ import { removeError } from "../features/errorSlice";
 
 const ErrorHandler = () => {
   const dispatch = useDispatch();
-  const { message } = useSelector((state) => state.error);
+  let message = useSelector((state) => state.error.message);
 
   useEffect(() => {
     if (message) {
